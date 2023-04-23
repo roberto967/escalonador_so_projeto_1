@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,39 +9,101 @@ import java.util.PriorityQueue;
 
 public abstract class Escalonador {
     public static void fcfs(List<Processo> processos) {
-        float tempoRetornoTotal = 0;
-        float tempoRespostaTotal = 0;
-        float tempoEsperaTotal = 0;
+        int tempoRetornoTotal = 0;
+        int tempoRespostaTotal = 0;
+        int tempoEsperaTotal = 0;
 
-        float tempoAtual = 0;
+        int tempoAtual = 0;
 
         for (Processo processo : processos) {
-            float tempoResposta = tempoAtual - processo.gettEntrada();
+            int tempoResposta = tempoAtual - processo.gettEntrada();
             tempoRespostaTotal += tempoResposta;
 
-            float tempoEspera = tempoResposta;
+            int tempoEspera = tempoResposta;
             tempoEsperaTotal += tempoEspera;
 
             // tempo de retorno = tempo de término - tempo de chegada
-            float tempoRetorno = tempoAtual + processo.getDuracao() - processo.gettEntrada();
+            int tempoRetorno = tempoAtual + processo.getDuracao() - processo.gettEntrada();
             tempoRetornoTotal += tempoRetorno;
 
             tempoAtual += processo.getDuracao();
         }
 
-        int tam = processos.size();
+        int nProcessos = processos.size();
 
-        float tempoRetornoMedio = tempoRetornoTotal / tam;
-        float tempoRespostaMedio = tempoRespostaTotal / tam;
-        float tempoEsperaMedio = tempoEsperaTotal / tam;
+        float tempoRetornoMedio = (float) tempoRetornoTotal / nProcessos;
+        float tempoRespostaMedio = (float) tempoRespostaTotal / nProcessos;
+        float tempoEsperaMedio = (float) tempoEsperaTotal / nProcessos;
 
         System.out.printf("FCFS: %.1f %.1f %.1f\n", tempoRetornoMedio, tempoRespostaMedio, tempoEsperaMedio);
     }
 
     public static void sjf(List<Processo> processos) {
+        int tempoRetornoTotal = 0;
+        int tempoRespostaTotal = 0;
+        int tempoEsperaTotal = 0;
+        int nProcessos = processos.size();
 
-        // System.out.printf("sjf: %.2f %.2f %.2f\n", tempoRetornoMedio,
-        // tempoRespostaMedio, tempoEsperaMedio);
+        List<Processo> listaExecucao = new ArrayList<>();
+        List<Processo> bkp = new ArrayList<>(processos);
+        int tempoAtual = 0;
+
+        // Ordena a lista de processos pelo tempo de entrada e pela duração
+        Collections.sort(bkp, Comparator.comparingInt(Processo::gettEntrada)
+                .thenComparingInt(Processo::getDuracao));
+
+        while (!bkp.isEmpty() || !listaExecucao.isEmpty()) {
+            /*
+             * Adiciona à lista de execução todos os processos
+             * que chegaram até o momento atual
+             */
+            while (!bkp.isEmpty() && bkp.get(0).gettEntrada() <= tempoAtual) {
+                System.out.println(listaExecucao);
+                listaExecucao.add(bkp.remove(0));
+            }
+
+            // Ordena a lista de execução pela duração dos processos
+            Collections.sort(listaExecucao, Comparator.comparingInt(Processo::getDuracao));
+
+            // Verifica se há processos na lista de execução
+            if (!listaExecucao.isEmpty()) {
+                // Executa o processo com a menor duração
+                Processo p = listaExecucao.get(0);
+                System.out.println(p);
+                tempoAtual += p.getDuracao();
+
+                // Marca o processo como respondido e registra o tempo de resposta
+                p.setRespondido(true);
+                p.settResposta((int) tempoAtual - p.gettEntrada());
+
+                // atualização das métricas
+                // tempo de retorno = tempo de término - tempo de chegada
+                int tempoRetorno = tempoAtual - p.gettEntrada();
+                tempoRetornoTotal += tempoRetorno;
+
+                int tempoResposta = tempoRetorno - p.getDuracao();
+                tempoRespostaTotal += tempoResposta;
+
+                int tempoEspera = tempoResposta;
+                tempoEsperaTotal += tempoEspera;
+
+                // Remove da lista de execução os processos respondidos
+                while (!listaExecucao.isEmpty() && listaExecucao.get(0).isRespondido()) {
+                    listaExecucao.remove(0);
+                }
+            } else {
+                // Não há processos na lista de execução, então avança o tempo para o próximo
+                // processo
+                tempoAtual = bkp.get(0).gettEntrada();
+            }
+        }
+
+        float tempoRetornoMedio = (float) tempoRetornoTotal / nProcessos;
+        float tempoRespostaMedio = (float) tempoRespostaTotal / nProcessos;
+        float tempoEsperaMedio = (float) tempoEsperaTotal / nProcessos;
+
+        System.out.printf("SJF: tretorno: %.1f tresposta: %.1f tEspera: %.1f\n", tempoRetornoMedio, tempoRespostaMedio,
+                tempoEsperaMedio);
     }
 
     public static void rr(List<Processo> processos) {

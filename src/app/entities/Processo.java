@@ -57,4 +57,5 @@ public class Processo {
     public String toString() {
         return new String("| ID: " + this.id + " (" + this.tEntrada + " " + this.duracao + ")| ");
     }
+
 }

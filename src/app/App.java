@@ -40,7 +40,8 @@ public abstract class App {
         }
 
         // System.out.println(new String(processos.toString()));
-        Escalonador.fcfs(processos);
-        Escalonador.rr(processos);
+        //Escalonador.fcfs(processos);
+        Escalonador.sjf(processos);
+        //Escalonador.rr(processos);
     }
 }
