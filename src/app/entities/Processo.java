@@ -55,7 +55,16 @@ public class Processo {
 
     @Override
     public String toString() {
-        return new String("| ID: " + this.id + " (" + this.tEntrada + " " + this.duracao + ")| ");
+        return new String(
+                "| ID: " + this.id + " (" + this.tEntrada + " " + this.duracao + ")| \n STATUS: " + isRespondido());
     }
 
+    public Processo(Processo processo) {
+        this.tEntrada = processo.tEntrada;
+        this.duracao = processo.duracao;
+        this.duracaoRestante = processo.duracaoRestante;
+        this.id = processo.id;
+        this.respondido = processo.respondido;
+        this.tResposta = processo.tResposta;
+    }
 }

@@ -8,14 +8,23 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public abstract class Escalonador {
+    protected static List<Processo> copiarLista(List<Processo> original) {
+        List<Processo> copia = new ArrayList<>();
+        for (Processo processo : original) {
+            copia.add(new Processo(processo));
+        }
+        return copia;
+    }
+
     public static void fcfs(List<Processo> processos) {
+        List<Processo> listaCopia = copiarLista(processos);
         int tempoRetornoTotal = 0;
         int tempoRespostaTotal = 0;
         int tempoEsperaTotal = 0;
 
         int tempoAtual = 0;
 
-        for (Processo processo : processos) {
+        for (Processo processo : listaCopia) {
             int tempoResposta = tempoAtual - processo.gettEntrada();
             tempoRespostaTotal += tempoResposta;
 
@@ -45,7 +54,7 @@ public abstract class Escalonador {
         int nProcessos = processos.size();
 
         List<Processo> listaExecucao = new ArrayList<>();
-        List<Processo> bkp = new ArrayList<>(processos);
+        List<Processo> bkp = copiarLista(processos);
         int tempoAtual = 0;
 
         // Ordena a lista de processos pelo tempo de entrada e pela duração
@@ -58,7 +67,6 @@ public abstract class Escalonador {
              * que chegaram até o momento atual
              */
             while (!bkp.isEmpty() && bkp.get(0).gettEntrada() <= tempoAtual) {
-                System.out.println(listaExecucao);
                 listaExecucao.add(bkp.remove(0));
             }
 
@@ -69,7 +77,6 @@ public abstract class Escalonador {
             if (!listaExecucao.isEmpty()) {
                 // Executa o processo com a menor duração
                 Processo p = listaExecucao.get(0);
-                System.out.println(p);
                 tempoAtual += p.getDuracao();
 
                 // Marca o processo como respondido e registra o tempo de resposta
@@ -107,6 +114,7 @@ public abstract class Escalonador {
     }
 
     public static void rr(List<Processo> processos) {
+        List<Processo> listaCopia = copiarLista(processos);
         int quantum = 2;
 
         int tRetornoTotal = 0;
@@ -194,5 +202,4 @@ public abstract class Escalonador {
 
         System.out.printf("RR: %.1f %.1f %.1f\n", tempoRetornoMedio, tempoRespostaMedio, tempoEsperaMedio);
     }
-
 }
