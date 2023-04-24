@@ -81,7 +81,7 @@ public abstract class Escalonador {
 
                 // Marca o processo como respondido e registra o tempo de resposta
                 p.setRespondido(true);
-                p.settResposta((int) tempoAtual - p.gettEntrada());
+                p.settResposta(tempoAtual - p.gettEntrada() - p.getDuracao());
 
                 // atualização das métricas
                 // tempo de retorno = tempo de término - tempo de chegada
@@ -128,7 +128,7 @@ public abstract class Escalonador {
         // Lista de processos que ainda não chegaram, ordenados pelo tempo de chegada
         PriorityQueue<Processo> listaChegada = new PriorityQueue<>(Comparator.comparingInt(Processo::gettEntrada));
 
-        processos.forEach(processo -> {
+        listaCopia.forEach(processo -> {
             if (processo.gettEntrada() == 0) {
                 listaExecucao.add(processo);
             } else {
