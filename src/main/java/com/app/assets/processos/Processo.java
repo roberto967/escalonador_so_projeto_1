@@ -1,4 +1,4 @@
-package app.entities;
+package com.app.assets.processos;
 
 public class Processo {
     private int tEntrada;
@@ -56,7 +56,7 @@ public class Processo {
     @Override
     public String toString() {
         return new String(
-                "| ID: " + this.id + " (" + this.tEntrada + " " + this.duracao + ")| \n STATUS: " + isRespondido());
+                "| ID: " + this.id + " (" + this.tEntrada + " " + this.duracao + ")| STATUS: " + isRespondido());
     }
 
     public Processo(Processo processo) {
