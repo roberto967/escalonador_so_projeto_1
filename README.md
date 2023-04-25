@@ -12,15 +12,15 @@ Esse projeto é a implementação de um conjunto de algoritmos de escalonamento 
 
 A entrada de dados é feita atravez do arquivo _**in.csv**_ com os processos no seguinte formato:
 
-tempo de chegada   | duração
------------------- | -------
+| tempo de chegada | duração |
+| ---------------- | ------- |
 
 ## Saída de dados
 
 A saída é composta por linhas contendo a sigla do algoritmo e os valores das metricas, no formato:
 
-**nome do algoritmo** | tempo médio de retorno | tempo médio de resposta | tempo medio de espera
------------------- | --------- | ---------- | ----------
+| **nome do algoritmo** | tempo médio de retorno | tempo médio de resposta | tempo medio de espera |
+| --------------------- | ---------------------- | ----------------------- | --------------------- |
 
 ## Exemplos
 
