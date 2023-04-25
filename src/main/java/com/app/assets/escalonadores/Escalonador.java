@@ -1,6 +1,8 @@
 package com.app.assets.escalonadores;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.app.assets.processos.Processo;
@@ -42,6 +44,8 @@ public abstract class Escalonador {
     }
 
     protected List<Processo> copiarLista(List<Processo> original) {
+        Collections.sort(original, Comparator.comparingInt(Processo::gettEntrada));
+        
         List<Processo> copia = new ArrayList<>();
         for (Processo processo : original) {
             copia.add(new Processo(processo));
