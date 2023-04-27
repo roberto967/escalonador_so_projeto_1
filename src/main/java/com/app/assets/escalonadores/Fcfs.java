@@ -32,9 +32,13 @@ public class Fcfs extends Escalonador {
             // atualização das métricas
             int tempoRetorno = tempoAtual - p.gettEntrada();
             tempoRetornoTotal += tempoRetorno;
-            
+
+            /*
+             * diferença entre o tempo que começou a ser executado e o tempo que chegou ao
+             * sistema, como o tempoAtual já avançou para o fim do processo é necessário
+             * subtraí-lo no calculo
+             */
             int tempoResposta = tempoAtual - p.gettEntrada() - p.getDuracao();
-            System.out.println("tempo atual: " + tempoAtual);
             tempoRespostaTotal += tempoResposta;
 
             // tempo de espera = tempo de resposta pois nao há entropia
