@@ -12,6 +12,10 @@ import com.app.assets.escalonadores.Rr;
 import com.app.assets.escalonadores.Sjf;
 import com.app.assets.processos.Processo;
 
+/*
+ * 
+ */
+
 public abstract class App {
     public static void main(String[] args) {
         String localArquivo = "./in.csv";
@@ -37,12 +41,12 @@ public abstract class App {
 
                 id++;
             }
+
+            System.out.println(new Fcfs(processos).getMetricas());
+            System.out.println(new Sjf(processos).getMetricas());
+            System.out.println(new Rr(processos, 2).getMetricas());
         } catch (IOException e) {
             System.out.println("Arquivo não encontrado!");
         }
-
-        System.out.println(new Fcfs(processos).getMetricas());
-        System.out.println(new Sjf(processos).getMetricas());
-        System.out.println(new Rr(processos, 2).getMetricas());
     }
 }

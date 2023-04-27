@@ -26,20 +26,24 @@ public class Fcfs extends Escalonador {
         }
 
         for (Processo p : totalProcessos) {
-            int tempoResposta = tempoAtual - p.gettEntrada();
-            tempoRespostaTotal += tempoResposta;
+            int tempoResposta = 0;
+            // Marca o processo como respondido e registra o tempo de resposta
+            if (!p.isRespondido()) {
+                p.setRespondido(true);
+                p.settResposta(tempoAtual - p.gettEntrada());
+                p.setDuracaoRestante(0);
 
+                tempoResposta = p.gettResposta();
+                tempoRespostaTotal += tempoResposta;
+            }
+
+            // Tempo de espera = tempo de resposta, pois não há entropia
             int tempoEspera = tempoResposta;
             tempoEsperaTotal += tempoEspera;
 
             // tempo de retorno = tempo de término - tempo de chegada
             int tempoRetorno = tempoAtual + p.getDuracao() - p.gettEntrada();
             tempoRetornoTotal += tempoRetorno;
-
-            // Marca o processo como respondido e registra o tempo de resposta
-            p.setRespondido(true);
-            p.settResposta(tempoAtual - p.gettEntrada() - p.getDuracao());
-            p.setDuracaoRestante(0);
 
             tempoAtual += p.getDuracao();
         }
