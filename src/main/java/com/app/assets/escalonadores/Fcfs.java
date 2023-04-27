@@ -16,6 +16,7 @@ public class Fcfs extends Escalonador {
         int tempoRespostaTotal = 0;
         int tempoEsperaTotal = 0;
         int nProcessos = totalProcessos.size();
+        System.out.println(nProcessos);
 
         int tempoAtual = 0;
 
@@ -26,26 +27,19 @@ public class Fcfs extends Escalonador {
         }
 
         for (Processo p : totalProcessos) {
-            int tempoResposta = 0;
-            // Marca o processo como respondido e registra o tempo de resposta
-            if (!p.isRespondido()) {
-                p.setRespondido(true);
-                p.settResposta(tempoAtual - p.gettEntrada());
-                p.setDuracaoRestante(0);
+            tempoAtual += p.getDuracao();
 
-                tempoResposta = p.gettResposta();
-                tempoRespostaTotal += tempoResposta;
-            }
+            // atualização das métricas
+            int tempoRetorno = tempoAtual - p.gettEntrada();
+            tempoRetornoTotal += tempoRetorno;
+            
+            int tempoResposta = tempoAtual - p.gettEntrada() - p.getDuracao();
+            System.out.println("tempo atual: " + tempoAtual);
+            tempoRespostaTotal += tempoResposta;
 
-            // Tempo de espera = tempo de resposta, pois não há entropia
+            // tempo de espera = tempo de resposta pois nao há entropia
             int tempoEspera = tempoResposta;
             tempoEsperaTotal += tempoEspera;
-
-            // tempo de retorno = tempo de término - tempo de chegada
-            int tempoRetorno = tempoAtual + p.getDuracao() - p.gettEntrada();
-            tempoRetornoTotal += tempoRetorno;
-
-            tempoAtual += p.getDuracao();
         }
 
         float tempoRetornoMedio = (float) tempoRetornoTotal / nProcessos;
