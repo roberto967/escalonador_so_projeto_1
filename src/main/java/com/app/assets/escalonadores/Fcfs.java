@@ -16,7 +16,6 @@ public class Fcfs extends Escalonador {
         int tempoRespostaTotal = 0;
         int tempoEsperaTotal = 0;
         int nProcessos = totalProcessos.size();
-        System.out.println(nProcessos);
 
         int tempoAtual = 0;
 

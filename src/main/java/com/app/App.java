@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import com.app.assets.escalonadores.Fcfs;
 import com.app.assets.escalonadores.Rr;
 import com.app.assets.escalonadores.Sjf;
+import com.app.assets.exceptions.DuracaoExeption;
 import com.app.assets.processos.Processo;
 
 /*
@@ -34,6 +35,10 @@ public abstract class App {
                 int entrada = Integer.parseInt(tokenizer.nextToken());
                 int duracao = Integer.parseInt(tokenizer.nextToken());
 
+                if (duracao == 0) {
+                    throw new DuracaoExeption("A duracao deve ser maior que 0.");
+                }
+
                 // Criar um novo objeto Processo e adicioná-lo ao ArrayList
                 Processo processo = new Processo(entrada, duracao, id);
                 processos.add(processo);
@@ -47,6 +52,8 @@ public abstract class App {
             System.out.println(new Rr(processos, 2).getMetricas());
         } catch (IOException e) {
             System.out.println("Arquivo não encontrado!");
+        } catch (DuracaoExeption e) {
+            e.printStackTrace();
         }
     }
 }
