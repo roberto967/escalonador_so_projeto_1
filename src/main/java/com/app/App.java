@@ -36,7 +36,7 @@ public abstract class App {
                 int duracao = Integer.parseInt(tokenizer.nextToken());
 
                 if (duracao == 0) {
-                    throw new DuracaoExeption("A duracao deve ser maior que 0.");
+                    throw new DuracaoExeption("Processo com duracao 0");
                 }
 
                 // Criar um novo objeto Processo e adicioná-lo ao ArrayList
@@ -51,7 +51,7 @@ public abstract class App {
             System.out.println(new Sjf(processos).getMetricas());
             System.out.println(new Rr(processos, 2).getMetricas());
         } catch (IOException e) {
-            System.out.println("Arquivo não encontrado!");
+            System.out.println("Arquivo nao encontrado!");
         } catch (DuracaoExeption e) {
             e.printStackTrace();
         }
