@@ -26,6 +26,10 @@ public class Fcfs extends Escalonador {
         }
 
         for (Processo p : totalProcessos) {
+            if (p.gettEntrada() > tempoAtual) {
+                tempoAtual = p.gettEntrada();
+            }
+
             tempoAtual += p.getDuracao();
 
             // atualização das métricas
